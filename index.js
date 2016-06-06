@@ -1,14 +1,14 @@
-import Inferno from 'inferno'
+import 'babel-polyfill'
+import 'isomorphic-fetch'
+import 'es6-promise'
 import {render} from 'inferno-dom'
-import Component from 'inferno-component'
 import createElement from 'inferno-create-element'
+import {applyMiddleware, createStore, combineReducers} from 'redux'
+import thunkMiddleware from 'redux-thunk'
+import App from './src/components/App.js'
+import Provider from './src/components/Provider.js'
+import reducers from './src/store.js'
 
-class Sample extends Component {
-  render () {
-    return pug`
-      div yeah
-    `
-  }
-}
+const store = applyMiddleware(thunkMiddleware)(createStore)(reducers)
 
-render(createElement(Sample), document.getElementById('app'))
+render(createElement(Provider, {store}, App), document.getElementById('app'))
